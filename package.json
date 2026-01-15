@@ -1,0 +1,12 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "application to shorts urls and tracks the clicks",
+  "license": "ISC",
+  "author": "Agustín Delfino",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
