@@ -21,7 +21,15 @@ async function handleDeleteUrl (req,res) {
     return res.status(200).json({id: shortId})
 }
 
+async function handleGetAnalytics (req, res) {
+    const shortId = req.params.shortId;
+    const entry = await URL.findOne({shortId})
+
+    return res.status(200).json({totalClicks: entry.visitHistory.length, analytics: entry.visitHistory})
+}
+
 module.exports = {
     handleGenerateNewUrl,
-    handleDeleteUrl
+    handleDeleteUrl,
+    handleGetAnalytics
 }
