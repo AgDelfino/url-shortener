@@ -11,6 +11,7 @@ connectMongoose(MONGODB_URI).then(() => console.log('MongoDB Connected'));
 // JSON parser needs to happen before the usage of the url route
 app.use(express.json())
 app.use('/url', urlRoute);
+
 app.get('/:shortId', async (req,res)=>{
     const shortId = req.params.shortId;
     const entry = await URL.findOneAndUpdate({shortId}, {$push: {visitHistory: {timestamps: Date.now()}}})
