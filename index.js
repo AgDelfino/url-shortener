@@ -18,8 +18,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use('/url', urlRoute);
 
-app.get('/test', (req, res) => {
-    return res.render('home')
+app.get('/test', async (req, res) => {
+    const urls = await URL.find({})
+    return res.render('home', {urls})
 })
 
 app.get('/:shortId', async (req,res)=>{
