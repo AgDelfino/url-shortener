@@ -3,6 +3,7 @@ const path = require('path');
 const urlRoute = require('./routes/url')
 const {connectMongoose} = require('./connect');
 const URL = require('./models/url')
+const staticRoute = require('./routes/staticRoute')
 
 
 const app = express();
@@ -17,13 +18,9 @@ app.set('views', path.resolve('./views'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use('/url', urlRoute);
-
-app.get('/test', async (req, res) => {
-    const urls = await URL.find({})
-    return res.render('home', {urls})
-})
-
-app.get('/:shortId', async (req,res)=>{
+app.use('/', staticRoute);
+app.get('/r/:shortId', async (req,res)=>{
+    console.log('Redirecting to URL');
     const shortId = req.params.shortId;
     const entry = await URL.findOneAndUpdate(
         { shortId },
@@ -32,6 +29,8 @@ app.get('/:shortId', async (req,res)=>{
 
     return res.redirect(entry.redirectUrl)
 })
+
+
 
 
 app.listen(PORT, () => {

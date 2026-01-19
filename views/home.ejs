@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: hsl(0, 0%, 20%);
+        }
+        #form form {
+            display: flex;
+            align-items: center;
+            gap: 20px; 
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello From The Server</h1>
-
-    <h2>This are your shortened URLs:</h2>
-    <ol>
-        <% urls.forEach(url => { %>
-         <li>
-            <%= url.shortId %>
-         </li>
-        <% }); %>
-    </ol>
+    <h1>URL Shortener</h1>
+    <% if (locals.id) { %>
+        <p>Your shortened URL is: http://localhost:8001/r/<strong><%= id %></strong></p>
+    <% } %>
+    <div id="form">
+        <form method="POST" action="/url">
+            <label>Enter your URL</label>
+            <input type="text" placeholder="https://example.com" name="url" />
+            <button type="submit">GENERATE</button>
+        </form>
+    </div>
 </body>
 </html>

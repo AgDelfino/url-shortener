@@ -2,6 +2,7 @@ const ids = require('short-id')
 const URL = require('../models/url')
 
 async function handleGenerateNewUrl(req, res) {
+    console.log('Im enter this function')
     const shortId = ids.generate()
     const url = req.body.url;
 
@@ -11,7 +12,7 @@ async function handleGenerateNewUrl(req, res) {
         redirectUrl: url,
         visitHistory: []
     })
-    return res.status(200).json({id: shortId})
+    return res.render('home', {id: shortId})
 }
 
 async function handleDeleteUrl (req,res) {
