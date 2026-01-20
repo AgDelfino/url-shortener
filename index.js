@@ -1,19 +1,31 @@
 const express = require('express');
+const path = require('path');
 const urlRoute = require('./routes/url')
 const {connectMongoose} = require('./connect');
 const URL = require('./models/url')
+const staticRoute = require('./routes/staticRoute');
+const { log } = require('console');
+
 
 const app = express();
 const PORT = 8001
 const MONGODB_URI ='mongodb://localhost:27017/short-id-db';
 
 connectMongoose(MONGODB_URI).then(() => console.log('MongoDB Connected'));
-// JSON parser needs to happen before the usage of the url route
+app.set('view engine', 'ejs');
+app.set('views', path.resolve('./views'));
+
+// Parsers need to happen before the usage of the url route
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use('/url', urlRoute);
-app.get('/:shortId', async (req,res)=>{
+app.use('/', staticRoute);
+app.get('/r/:shortId', async (req,res)=>{
     const shortId = req.params.shortId;
-    const entry = await URL.findOneAndUpdate({shortId}, {$push: {visitHistory: {timestamps: Date.now()}}})
+    const entry = await URL.findOneAndUpdate(
+        { shortId },
+        { $push: { visitHistory: { timestamps: Date.now() } } }
+    )
 
     return res.redirect(entry.redirectUrl)
 })
